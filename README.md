@@ -1,0 +1,2 @@
+# godats
+Go data structures
