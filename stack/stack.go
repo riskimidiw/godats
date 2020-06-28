@@ -66,7 +66,7 @@ func (s *stack) Empty() bool {
 	return s.Length() == 0
 }
 
-// Values return all stack values
+// Values return all stack values from earliest pushed item
 func (s *stack) Values() []interface{} {
 	return s.items
 }

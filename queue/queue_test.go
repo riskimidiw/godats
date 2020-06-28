@@ -1,11 +1,11 @@
-package stack
+package queue
 
 import (
 	"reflect"
 	"testing"
 )
 
-func TestStack_Push(t *testing.T) {
+func TestQueue_Enqueue(t *testing.T) {
 	tests := []struct {
 		Name           string
 		Items          []interface{}
@@ -22,13 +22,13 @@ func TestStack_Push(t *testing.T) {
 			Name:           "MultipleData",
 			Items:          []interface{}{1, 2, 4},
 			ExpectedLength: 3,
-			ExpectedPeek:   4,
+			ExpectedPeek:   1,
 		},
 		{
 			Name:           "MultipleDataType",
-			Items:          []interface{}{1, 2.4, "test"},
+			Items:          []interface{}{3, 2.4, "test"},
 			ExpectedLength: 3,
-			ExpectedPeek:   "test",
+			ExpectedPeek:   3,
 		},
 	}
 
@@ -36,7 +36,7 @@ func TestStack_Push(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
 			for _, item := range test.Items {
-				stack.Push(item)
+				stack.Enqueue(item)
 			}
 
 			if stack.Length() != test.ExpectedLength {
@@ -49,18 +49,18 @@ func TestStack_Push(t *testing.T) {
 	}
 }
 
-func BenchmarkStack_Push_100K(b *testing.B) {
+func BenchmarkQueue_Enqueue_100K(b *testing.B) {
 	size := 100000
 	stack := New()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < size; j++ {
-			stack.Push(i)
+			stack.Enqueue(i)
 		}
 	}
 }
 
-func TestStack_Pop(t *testing.T) {
+func TestQueue_Dequeue(t *testing.T) {
 	tests := []struct {
 		Name           string
 		Items          []interface{}
@@ -84,14 +84,14 @@ func TestStack_Pop(t *testing.T) {
 		{
 			Name:           "MultipleData",
 			Items:          []interface{}{1, 2, 4},
-			ExpectedResult: 4,
+			ExpectedResult: 1,
 			ExpectedLength: 2,
 			ExpectedPeek:   2,
 		},
 		{
 			Name:           "MultipleDataType",
 			Items:          []interface{}{1, 2.4, "test"},
-			ExpectedResult: "test",
+			ExpectedResult: 1,
 			ExpectedLength: 2,
 			ExpectedPeek:   2.4,
 		},
@@ -101,10 +101,10 @@ func TestStack_Pop(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
 			for _, item := range test.Items {
-				stack.Push(item)
+				stack.Enqueue(item)
 			}
 
-			item := stack.Pop()
+			item := stack.Dequeue()
 			if item != test.ExpectedResult {
 				t.Errorf("expected result: %v, got: %v", test.ExpectedResult, item)
 			}
@@ -118,22 +118,22 @@ func TestStack_Pop(t *testing.T) {
 	}
 }
 
-func BenchmarkStack_Pop_100K(b *testing.B) {
+func BenchmarkQueue_Dequeue_100K(b *testing.B) {
 	size := 100000
 	stack := New()
 	for i := 0; i < size; i++ {
-		stack.Push(i)
+		stack.Enqueue(i)
 	}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < size; j++ {
-			stack.Pop()
+			stack.Dequeue()
 		}
 	}
 }
 
-func TestStack_Peek(t *testing.T) {
+func TestQueue_Peek(t *testing.T) {
 	tests := []struct {
 		Name         string
 		Items        []interface{}
@@ -151,12 +151,12 @@ func TestStack_Peek(t *testing.T) {
 		{
 			Name:         "MultipleData",
 			Items:        []interface{}{1, 2, 4},
-			ExpectedPeek: 4,
+			ExpectedPeek: 1,
 		},
 		{
 			Name:         "MultipleDataType",
-			Items:        []interface{}{1, 2.4, "test"},
-			ExpectedPeek: "test",
+			Items:        []interface{}{3, 2.4, "test"},
+			ExpectedPeek: 3,
 		},
 	}
 
@@ -164,7 +164,7 @@ func TestStack_Peek(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
 			for _, item := range test.Items {
-				stack.Push(item)
+				stack.Enqueue(item)
 			}
 
 			item := stack.Peek()
@@ -175,11 +175,11 @@ func TestStack_Peek(t *testing.T) {
 	}
 }
 
-func BenchmarkStack_Peek_100K(b *testing.B) {
+func BenchmarkQueue_Peek_100K(b *testing.B) {
 	size := 100000
 	stack := New()
 	for i := 0; i < size; i++ {
-		stack.Push(i)
+		stack.Enqueue(i)
 	}
 
 	b.ResetTimer()
@@ -189,7 +189,7 @@ func BenchmarkStack_Peek_100K(b *testing.B) {
 	}
 }
 
-func TestStack_Lenght(t *testing.T) {
+func TestQueue_Lenght(t *testing.T) {
 	tests := []struct {
 		Name           string
 		Items          []interface{}
@@ -220,7 +220,7 @@ func TestStack_Lenght(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
 			for _, item := range test.Items {
-				stack.Push(item)
+				stack.Enqueue(item)
 			}
 
 			result := stack.Length()
@@ -231,11 +231,11 @@ func TestStack_Lenght(t *testing.T) {
 	}
 }
 
-func BenchmarkStack_Length_100K(b *testing.B) {
+func BenchmarkQueue_Length_100K(b *testing.B) {
 	size := 100000
 	stack := New()
 	for i := 0; i < size; i++ {
-		stack.Push(i)
+		stack.Enqueue(i)
 	}
 
 	b.ResetTimer()
@@ -244,7 +244,7 @@ func BenchmarkStack_Length_100K(b *testing.B) {
 	}
 }
 
-func TestStack_Empty(t *testing.T) {
+func TestQueue_Empty(t *testing.T) {
 	tests := []struct {
 		Name          string
 		Items         []interface{}
@@ -275,7 +275,7 @@ func TestStack_Empty(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
 			for _, item := range test.Items {
-				stack.Push(item)
+				stack.Enqueue(item)
 			}
 
 			result := stack.Empty()
@@ -286,11 +286,11 @@ func TestStack_Empty(t *testing.T) {
 	}
 }
 
-func BenchmarkStack_Empty_100K(b *testing.B) {
+func BenchmarkQueue_Empty_100K(b *testing.B) {
 	size := 100000
 	stack := New()
 	for i := 0; i < size; i++ {
-		stack.Push(i)
+		stack.Enqueue(i)
 	}
 
 	b.ResetTimer()
@@ -299,7 +299,7 @@ func BenchmarkStack_Empty_100K(b *testing.B) {
 	}
 }
 
-func TestStack_Clear(t *testing.T) {
+func TestQueue_Clear(t *testing.T) {
 	tests := []struct {
 		Name          string
 		Items         []interface{}
@@ -326,7 +326,7 @@ func TestStack_Clear(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
 			for _, item := range test.Items {
-				stack.Push(item)
+				stack.Enqueue(item)
 			}
 
 			stack.Clear()
@@ -342,11 +342,11 @@ func TestStack_Clear(t *testing.T) {
 	}
 }
 
-func BenchmarkStack_Clear_100K(b *testing.B) {
+func BenchmarkQueue_Clear_100K(b *testing.B) {
 	size := 100000
 	stack := New()
 	for i := 0; i < size; i++ {
-		stack.Push(i)
+		stack.Enqueue(i)
 	}
 
 	b.ResetTimer()
@@ -355,7 +355,7 @@ func BenchmarkStack_Clear_100K(b *testing.B) {
 	}
 }
 
-func TestStack_Values(t *testing.T) {
+func TestQueue_Values(t *testing.T) {
 	tests := []struct {
 		Name  string
 		Items []interface{}
@@ -381,7 +381,7 @@ func TestStack_Values(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
 			for _, item := range test.Items {
-				stack.Push(item)
+				stack.Enqueue(item)
 			}
 
 			item := stack.Values()
@@ -392,11 +392,11 @@ func TestStack_Values(t *testing.T) {
 	}
 }
 
-func BenchmarkStack_Values_100K(b *testing.B) {
+func BenchmarkQueue_Values_100K(b *testing.B) {
 	size := 100000
 	stack := New()
 	for i := 0; i < size; i++ {
-		stack.Push(i)
+		stack.Enqueue(i)
 	}
 
 	b.ResetTimer()
