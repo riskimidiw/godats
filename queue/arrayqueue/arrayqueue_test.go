@@ -1,4 +1,4 @@
-package queue
+package arrayqueue
 
 import (
 	"reflect"
@@ -35,9 +35,7 @@ func TestQueue_Enqueue(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Enqueue(item)
-			}
+			stack.Enqueue(test.Items...)
 
 			if stack.Length() != test.ExpectedLength {
 				t.Errorf("expected length: %v, got: %v", test.ExpectedLength, stack.Length())
@@ -100,9 +98,7 @@ func TestQueue_Dequeue(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Enqueue(item)
-			}
+			stack.Enqueue(test.Items...)
 
 			item := stack.Dequeue()
 			if item != test.ExpectedResult {
@@ -163,9 +159,7 @@ func TestQueue_Peek(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Enqueue(item)
-			}
+			stack.Enqueue(test.Items...)
 
 			item := stack.Peek()
 			if item != test.ExpectedPeek {
@@ -219,9 +213,7 @@ func TestQueue_Lenght(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Enqueue(item)
-			}
+			stack.Enqueue(test.Items...)
 
 			result := stack.Length()
 			if result != test.ExpectedLength {
@@ -274,9 +266,7 @@ func TestQueue_Empty(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Enqueue(item)
-			}
+			stack.Enqueue(test.Items...)
 
 			result := stack.Empty()
 			if result != test.ExpectedEmpty {
@@ -325,9 +315,7 @@ func TestQueue_Clear(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Enqueue(item)
-			}
+			stack.Enqueue(test.Items...)
 
 			stack.Clear()
 			empty := stack.Empty()
@@ -380,9 +368,7 @@ func TestQueue_Values(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Enqueue(item)
-			}
+			stack.Enqueue(test.Items...)
 
 			item := stack.Values()
 			if !reflect.DeepEqual(item, test.Items) {

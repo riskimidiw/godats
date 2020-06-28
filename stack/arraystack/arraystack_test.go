@@ -1,4 +1,4 @@
-package stack
+package arraystack
 
 import (
 	"reflect"
@@ -35,9 +35,7 @@ func TestStack_Push(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Push(item)
-			}
+			stack.Push(test.Items...)
 
 			if stack.Length() != test.ExpectedLength {
 				t.Errorf("expected length: %v, got: %v", test.ExpectedLength, stack.Length())
@@ -100,9 +98,7 @@ func TestStack_Pop(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Push(item)
-			}
+			stack.Push(test.Items...)
 
 			item := stack.Pop()
 			if item != test.ExpectedResult {
@@ -163,9 +159,7 @@ func TestStack_Peek(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Push(item)
-			}
+			stack.Push(test.Items...)
 
 			item := stack.Peek()
 			if item != test.ExpectedPeek {
@@ -219,9 +213,7 @@ func TestStack_Lenght(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Push(item)
-			}
+			stack.Push(test.Items...)
 
 			result := stack.Length()
 			if result != test.ExpectedLength {
@@ -274,9 +266,7 @@ func TestStack_Empty(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Push(item)
-			}
+			stack.Push(test.Items...)
 
 			result := stack.Empty()
 			if result != test.ExpectedEmpty {
@@ -325,9 +315,7 @@ func TestStack_Clear(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Push(item)
-			}
+			stack.Push(test.Items...)
 
 			stack.Clear()
 			empty := stack.Empty()
@@ -380,9 +368,7 @@ func TestStack_Values(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			stack := New()
-			for _, item := range test.Items {
-				stack.Push(item)
-			}
+			stack.Push(test.Items...)
 
 			item := stack.Values()
 			if !reflect.DeepEqual(item, test.Items) {
